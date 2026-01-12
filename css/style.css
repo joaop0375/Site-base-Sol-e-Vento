@@ -205,9 +205,32 @@ img {
 
 /* Hero Section */
 .hero {
-    padding: 80px 0;
+    padding: 80px 0 150px 0;
+    /* Extra padding for divider */
     background: linear-gradient(135deg, #f0f9f0 0%, #e0f2f1 100%);
     overflow: hidden;
+    position: relative;
+}
+
+.custom-shape-divider-bottom-1678901234 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1678901234 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 62px;
+}
+
+.custom-shape-divider-bottom-1678901234 .shape-fill {
+    fill: #2E7D32;
 }
 
 .hero-container {
@@ -395,7 +418,7 @@ img {
     gap: 20px;
     background: var(--white);
     padding: 30px;
-    border-radius: 16px;
+    border-radius: 24px;
     box-shadow: var(--shadow);
 }
 
@@ -518,6 +541,55 @@ img {
 .form-group textarea:focus {
     border-color: var(--primary-color);
     outline: none;
+    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+}
+
+.form-group input.valid,
+.form-group textarea.valid {
+    border-color: #2E7D32;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232E7D32' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+
+.form-group input.invalid,
+.form-group textarea.invalid {
+    border-color: #d32f2f;
+    animation: shake 0.3s;
+}
+
+.input-error-message {
+    color: #d32f2f;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    display: none;
+}
+
+.form-group input.invalid+.input-error-message {
+    display: block;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
 }
 
 /* Footer */
@@ -587,6 +659,40 @@ img {
     }
 }
 
+.whatsapp-balloon {
+    position: absolute;
+    right: 70px;
+    bottom: 10px;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    width: 200px;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.4s ease;
+    pointer-events: none;
+}
+
+.whatsapp-balloon.visible {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.whatsapp-balloon::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    bottom: 15px;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid white;
+}
+
 /* Media Queries */
 @media (max-width: 900px) {
     .hero-container {
@@ -626,11 +732,17 @@ img {
         flex-direction: column;
         padding: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        display: none;
-        /* Add JS toggle */
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-20px);
+        transition: all 0.4s ease;
     }
 
     .nav-list.active {
+        /* display: flex; */
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
         display: flex;
     }
 
@@ -653,9 +765,11 @@ img {
 
 .project-card {
     background: var(--white);
-    border-radius: 16px;
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: var(--shadow);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    /* Soft shadow */
+    border: 1px solid rgba(0, 0, 0, 0.02);
     transition: var(--transition);
 }
 

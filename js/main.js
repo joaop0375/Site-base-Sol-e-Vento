@@ -1,29 +1,124 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Mobile Menu Toggle
+    // 1. Mobile Menu Toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navList = document.querySelector('.nav-list');
+    const icon = mobileMenuBtn.querySelector('i');
 
-    mobileMenuBtn.addEventListener('click', () => {
+    function toggleMenu() {
         navList.classList.toggle('active');
-        const icon = navList.classList.contains('active') ? 'x' : 'menu';
-        // Need to re-render lucide icon if we were swapping them, 
-        // but for simplicity we rely on toggle visibility or just keep simple.
-        // Let's just toggle visibility class.
+        // Optional: Animate icon or swap it
+        if (navList.classList.contains('active')) {
+            icon.setAttribute('data-lucide', 'x');
+        } else {
+            icon.setAttribute('data-lucide', 'menu');
+        }
+        lucide.createIcons(); // Re-render icon
+    }
+
+    mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (navList.classList.contains('active') && !navList.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            navList.classList.remove('active');
+            icon.setAttribute('data-lucide', 'menu');
+            lucide.createIcons();
+        }
     });
 
     // Close mobile menu when clicking a link
     document.querySelectorAll('.nav-list a').forEach(link => {
         link.addEventListener('click', () => {
             navList.classList.remove('active');
+            icon.setAttribute('data-lucide', 'menu');
+            lucide.createIcons();
         });
     });
 
-    // Handle Form Submission
+
+    // 2. WhatsApp Balloon Logic
+    setTimeout(() => {
+        const balloon = document.createElement('div');
+        balloon.className = 'whatsapp-balloon';
+        balloon.innerHTML = 'Olá! Posso te ajudar com um orçamento?';
+        
+        const waBtn = document.querySelector('.floating-whatsapp');
+        if (waBtn) {
+            waBtn.appendChild(balloon); // Append to the button wrapper if possible, or body
+             // Actually, sticking it to body and positioning relative to fixed button is safer
+             // But CSS expects it potentially inside or relative. 
+             // Let's modify CSS slightly or just append to body and position fixed.
+             // Based on CSS '.whatsapp-balloon' usually implies being near the button.
+             // The CSS I wrote: .whatsapp-balloon { position: absolute; right: 70px; ... }
+             // This implies it should be inside the floating-whatsapp container or relative to it.
+             // But .floating-whatsapp is an <a> tag. It can have children.
+             waBtn.appendChild(balloon);
+             
+             // Trigger reflow
+             void balloon.offsetWidth;
+             
+             balloon.classList.add('visible');
+             
+             // Hide after 10 seconds? Or keep it? User said "exibir", didn't say hide.
+        }
+    }, 5000);
+
+
+    // 3. Form Validation & Submission
     const quoteForm = document.getElementById('quoteForm');
 
     if (quoteForm) {
+        const inputs = quoteForm.querySelectorAll('input');
+        
+        // Real-time validation
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                validateInput(input);
+            });
+            
+            input.addEventListener('blur', () => {
+                validateInput(input);
+            });
+        });
+
+        function validateInput(input) {
+            const nextElement = input.nextElementSibling;
+            // Create error message element if not exists
+            let errorMsg = null;
+            if (nextElement && nextElement.classList.contains('input-error-message')) {
+                errorMsg = nextElement;
+            } else {
+                errorMsg = document.createElement('span');
+                errorMsg.className = 'input-error-message';
+                input.parentNode.insertBefore(errorMsg, input.nextSibling);
+            }
+
+            if (input.checkValidity()) {
+                input.classList.remove('invalid');
+                input.classList.add('valid');
+                errorMsg.style.display = 'none';
+            } else {
+                input.classList.remove('valid');
+                input.classList.add('invalid');
+                errorMsg.textContent = input.validationMessage;
+                errorMsg.style.display = 'block';
+            }
+        }
+
         quoteForm.addEventListener('submit', (e) => {
             e.preventDefault();
+
+            // Validate all before sending
+            let isValid = true;
+            inputs.forEach(input => {
+                validateInput(input);
+                if (!input.checkValidity()) isValid = false;
+            });
+
+            if (!isValid) return;
 
             const formData = new FormData(quoteForm);
             const name = formData.get('name');
@@ -41,32 +136,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Optional: Reset form
             quoteForm.reset();
+            inputs.forEach(i => i.classList.remove('valid'));
         });
     }
 
-    // Smooth Scroll for Anchors (handled by CSS, but fallback/enhanced here if needed)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement) {
-                const headerOffset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-            }
-        });
-    });
-
-    // Scroll Reveal Animation
+    // Scroll Reveal Animation (Keep existing)
     const revealElements = document.querySelectorAll('.reveal');
-
     const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
