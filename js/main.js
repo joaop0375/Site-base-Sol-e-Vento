@@ -44,25 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const balloon = document.createElement('div');
         balloon.className = 'whatsapp-balloon';
         balloon.innerHTML = 'Olá! Posso te ajudar com um orçamento?';
-        
+
         const waBtn = document.querySelector('.floating-whatsapp');
         if (waBtn) {
-            waBtn.appendChild(balloon); // Append to the button wrapper if possible, or body
-             // Actually, sticking it to body and positioning relative to fixed button is safer
-             // But CSS expects it potentially inside or relative. 
-             // Let's modify CSS slightly or just append to body and position fixed.
-             // Based on CSS '.whatsapp-balloon' usually implies being near the button.
-             // The CSS I wrote: .whatsapp-balloon { position: absolute; right: 70px; ... }
-             // This implies it should be inside the floating-whatsapp container or relative to it.
-             // But .floating-whatsapp is an <a> tag. It can have children.
-             waBtn.appendChild(balloon);
-             
-             // Trigger reflow
-             void balloon.offsetWidth;
-             
-             balloon.classList.add('visible');
-             
-             // Hide after 10 seconds? Or keep it? User said "exibir", didn't say hide.
+            waBtn.appendChild(balloon);
+            void balloon.offsetWidth;
+            balloon.classList.add('visible');
         }
     }, 5000);
 
@@ -72,13 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (quoteForm) {
         const inputs = quoteForm.querySelectorAll('input');
-        
+
         // Real-time validation
         inputs.forEach(input => {
             input.addEventListener('input', () => {
                 validateInput(input);
             });
-            
+
             input.addEventListener('blur', () => {
                 validateInput(input);
             });
@@ -128,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Construct WhatsApp Message
             const message = `*SOLICITAÇÃO DE ORÇAMENTO SOL & VENTO*\n\n*Nome:* ${name}\n*Email:* ${email}\n*Telefone:* ${phone}\n*Média da Conta:* R$ ${bill}\n\n-----------------------------------\nEnviado através do site.`;
-            const whatsappNumber = '556299576462'; 
+            const whatsappNumber = '556299576462';
             const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
             // Open WhatsApp
@@ -137,6 +124,82 @@ document.addEventListener('DOMContentLoaded', () => {
             // Optional: Reset form
             quoteForm.reset();
             inputs.forEach(i => i.classList.remove('valid'));
+        });
+    }
+
+    // 4. Counter Animation
+    const statsSection = document.querySelector('.stats');
+    if (statsSection) {
+        const counters = document.querySelectorAll('.stat-number');
+        let started = false;
+
+        const startCounters = () => {
+            counters.forEach(counter => {
+                const target = +counter.innerText.replace(/\D/g, ''); // Extract number
+                if (target === 0) return; // Skip non-numbers like 95% if parsed wrong, but regex helps.
+
+                const duration = 2000; // 2 seconds
+                const increment = target / (duration / 16); // 60fps
+
+                let current = 0;
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current) + (counter.innerText.includes('%') ? '%' : (counter.innerText.includes('+') ? '+' : ''));
+                        // Simple re-append suffix if needed, but better logic:
+                        // Restore prefix/suffix?
+                        // For "+1000", target=1000. Text -> "+"+current.
+                        if (counter.dataset.originalText.includes('+')) counter.innerText = "+" + Math.ceil(current);
+                        else if (counter.dataset.originalText.includes('%')) counter.innerText = Math.ceil(current) + "%";
+                        else counter.innerText = Math.ceil(current);
+
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = counter.dataset.originalText; // Ensure exact final value
+                    }
+                };
+
+                // Store original text
+                counter.dataset.originalText = counter.innerText;
+                updateCounter();
+            });
+        };
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !started) {
+                startCounters();
+                started = true;
+            }
+        });
+
+        statsObserver.observe(statsSection);
+    }
+
+    // 5. Exit Intent Popup
+    const exitModal = document.getElementById('exitModal');
+    if (exitModal) {
+        const closeModal = document.querySelector('.close-modal');
+        let hasShown = false;
+
+        // Trigger on mouse leaving viewport (desktop)
+        document.addEventListener('mouseleave', (e) => {
+            if (e.clientY < 0 && !hasShown) {
+                exitModal.style.display = 'flex';
+                hasShown = true;
+            }
+        });
+
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                exitModal.style.display = 'none';
+            });
+        }
+
+        // Close when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target == exitModal) {
+                exitModal.style.display = 'none';
+            }
         });
     }
 

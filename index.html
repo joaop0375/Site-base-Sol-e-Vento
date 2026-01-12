@@ -36,7 +36,12 @@
         "opens": "08:00",
         "closes": "18:00"
       },
-      "priceRange": "$$"
+      "priceRange": "$$",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "127"
+      }
     }
     </script>
 
@@ -81,12 +86,13 @@
             <div class="container hero-container">
                 <div class="hero-content reveal">
                     <span class="badge">Chega de Conta Alta</span>
-                    <h1>PARE DE ALUGAR ENERGIA. <span class="text-highlight">TENHA SUA PRÓPRIA USINA.</span></h1>
-                    <p>A única forma de se livrar dos aumentos da conta de luz. Economia de até 95%, financiamento
-                        facilitado e <strong>o menor juros do mercado no cartão</strong>.</p>
+                    <h1>PARE DE JOGAR DINHEIRO NO LIXO TODO MÊS. <span class="text-highlight">Domine sua própria usina e
+                            zere sua conta de luz antes do próximo aumento.</span></h1>
+                    <p>O sistema se paga sozinho e o lucro entra direto no seu bolso por 25 anos. Pare de ser explorado
+                        pela concessionária.</p>
                     <div class="hero-buttons">
-                        <a href="#contato" class="btn btn-primary btn-lg">Quero minha proposta grátis</a>
-                        <a href="#financiamento" class="btn btn-outline btn-lg">Ver Parcelamento</a>
+                        <a href="#contato" class="btn btn-primary btn-lg">SIM, QUERO MINHA LIBERDADE ENERGÉTICA</a>
+                        <a href="#financiamento" class="btn btn-outline btn-lg">QUERO SIMULAR MEU LUCRO</a>
                     </div>
                 </div>
                 <div class="hero-image-wrapper reveal">
@@ -206,9 +212,9 @@
         <section class="section bg-light-blue" id="financiamento">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="badge badge-blue">Condições Exclusivas</span>
-                    <h2>Facilidade Absoluta no Pagamento</h2>
-                    <p>Escolha a opção que cabe no seu bolso e comece a economizar.</p>
+                    <span class="badge badge-blue">Oportunidade Única</span>
+                    <h2>Última chance de garantir taxas abaixo do mercado</h2>
+                    <p>Não deixe para depois o que vai custar mais caro amanhã. Garanta sua autonomia.</p>
                 </div>
 
                 <div class="payment-grid">
@@ -342,9 +348,9 @@
         <section class="section" id="contato">
             <div class="container contact-container">
                 <div class="contact-info">
-                    <h2>Peça um Orçamento Gratuito</h2>
-                    <p>Preencha o formulário e nossa equipe técnica entrará em contato para dimensionar o sistema ideal
-                        para você.</p>
+                    <h2 style="color: var(--accent-color);">O SEU DINHEIRO ESTÁ INDO PELO RALO?</h2>
+                    <p><strong>Recupere sua autonomia financeira.</strong> Preencha os dados abaixo e pare de pagar
+                        conta cara sem antes falar com um consultor.</p>
                     <div class="info-list">
                         <div class="info-item">
                             <i data-lucide="phone"></i>
@@ -378,7 +384,8 @@
                             <label for="bill">Média da Conta de Luz (R$)</label>
                             <input type="number" id="bill" name="bill" placeholder="Ex: 500,00">
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Solicitar Cotação</button>
+                        <button type="submit" class="btn btn-primary btn-block">SIM, QUERO MINHA LIBERDADE
+                            ENERGÉTICA</button>
                     </form>
                 </div>
             </div>
@@ -444,6 +451,23 @@
         aria-label="Fale conosco no WhatsApp">
         <i data-lucide="message-circle"></i>
     </a>
+
+    <!-- Exit Intent Modal -->
+    <div id="exitModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>ESPERE! ⚠️</h2>
+            </div>
+            <div class="modal-body">
+                <p>Não volte a pagar conta cara sem antes falar com um consultor. Essa é sua chance de zerar a conta de
+                    luz.</p>
+                <a href="#contato" class="btn btn-primary btn-block"
+                    onclick="document.getElementById('exitModal').style.display='none'">QUERO FALAR COM UM
+                    ESPECIALISTA</a>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="js/main.js"></script>

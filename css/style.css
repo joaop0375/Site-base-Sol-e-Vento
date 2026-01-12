@@ -19,6 +19,9 @@
     --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     --container-width: 1200px;
     --header-height: 80px;
+    --neon-green: #00E676;
+    --neon-glow: 0 0 10px rgba(0, 230, 118, 0.4);
+    --dark-bg: #0a190b;
 }
 
 * {
@@ -770,12 +773,14 @@ img {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     /* Soft shadow */
     border: 1px solid rgba(0, 0, 0, 0.02);
+    border-bottom: 2px solid var(--neon-green);
+    /* Neon accent */
     transition: var(--transition);
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), var(--neon-glow);
 }
 
 .project-card img {
@@ -998,10 +1003,17 @@ img {
     box-shadow: var(--shadow);
     transition: var(--transition);
     border: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 2px solid var(--neon-green);
+    /* Neon accent */
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
+}
+
+.payment-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), var(--neon-glow);
 }
 
 .payment-card:hover {
@@ -1129,5 +1141,77 @@ img {
 
     .payment-card.featured:hover {
         transform: translateY(-10px);
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.4s;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: 24px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+    border: 2px solid var(--neon-green);
+    animation: slideIn 0.4s;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.modal-header h2 {
+    color: #d32f2f;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.modal-body p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    color: #444;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
     }
 }
