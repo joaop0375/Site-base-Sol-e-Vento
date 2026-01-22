@@ -221,4 +221,86 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(element => {
         revealObserver.observe(element);
     });
+
+    // 6. Newsletter Form Handling
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const emailInput = newsletterForm.querySelector('input[type="email"]');
+            const nameInput = newsletterForm.querySelector('input[type="text"]');
+
+            if (emailInput.value && nameInput.value) {
+                // Simulate success
+                alert(`Obrigado, ${nameInput.value}! Você foi inscrito com sucesso e receberá nossas novidades em ${emailInput.value}.`);
+                newsletterForm.reset();
+            }
+        });
+    }
+    // 7. Automated News Fetch (Progressive Enhancement)
+    async function fetchSolarNews() {
+        // RSS Feed for "Energia Solar Brasil"
+        const RSS_URL = 'https://news.google.com/rss/search?q=energia+solar+brasil+setor+mercado&hl=pt-BR&gl=BR&ceid=BR:pt-419';
+        const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+        const newsGrid = document.querySelector('.news-grid');
+
+        if (!newsGrid) return;
+
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+
+            if (data.status === 'ok' && data.items.length > 0) {
+                // Clear existing static content
+                newsGrid.innerHTML = '';
+
+                // Take top 3 news items
+                const validItems = data.items.slice(0, 3);
+
+                validItems.forEach((item, index) => {
+                    const date = new Date(item.pubDate);
+                    const formattedDate = date.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short', year: 'numeric' });
+
+                    // Simple logic to assign a category based on title keywords
+                    let category = 'Notícias';
+                    const titleLower = item.title.toLowerCase();
+                    if (titleLower.includes('mercado') || titleLower.includes('preço') || titleLower.includes('investimento')) category = 'Mercado';
+                    else if (titleLower.includes('tecnologia') || titleLower.includes('painel') || titleLower.includes('inversor')) category = 'Tecnologia';
+                    else if (titleLower.includes('lei') || titleLower.includes('fio b') || titleLower.includes('imposto')) category = 'Regulação';
+
+                    // Select a random or rotating image from the 5 uploaded ones
+                    // Using modulo index to ensure rotation: news-bg-1.jpg to news-bg-5.jpg
+                    const imageIndex = (index % 5) + 1;
+                    const imagePath = `Images/news-bg-${imageIndex}.jpg`;
+
+                    // Create Card HTML
+                    const article = document.createElement('article');
+                    article.className = 'news-card reveal active'; // Already revealed
+
+                    article.innerHTML = `
+                        <div class="news-image">
+                            <img src="${imagePath}" alt="${item.title}" style="height: 200px; width: 100%; object-fit: cover;">
+                            <span class="news-category">${category}</span>
+                        </div>
+                        <div class="news-content">
+                            <span class="news-date">${formattedDate}</span>
+                            <h3>${item.title}</h3>
+                            <a href="${item.link}" target="_blank" class="read-more">Ler notícia completa <i data-lucide="arrow-right"></i></a>
+                        </div>
+                    `;
+
+                    newsGrid.appendChild(article);
+                });
+
+                // Re-init generic icons just in case
+                if (window.lucide) window.lucide.createIcons();
+            }
+        } catch (error) {
+            console.log('Automated news fetch failed, showing static content.', error);
+            // Fallback is already there (static HTML), so we do nothing.
+        }
+    }
+
+    // Call the function
+    fetchSolarNews();
 });
