@@ -303,4 +303,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call the function
     fetchSolarNews();
+
+    /* =========================================================
+       SISTEMA DINÂMICO DE IMAGENS E PLACEHOLDERS (SEÇÃO ASSINATURA)
+    ========================================================= */
+    const imageConfig = [
+        {
+            arquivo: 'Images/painel-solar-assinatura.jpg',
+            descricao: 'Imagem: Painel Solar e Economia',
+            iconeFallback: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`
+        },
+        {
+            arquivo: 'Images/grafico-desconto.jpg', 
+            descricao: 'Imagem: Gráfico ilustrando a redução da fatura',
+            iconeFallback: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>`
+        }
+    ];
+
+    const imageContainers = document.querySelectorAll('.solar-img-container');
+
+    imageContainers.forEach(container => {
+        const index = container.getAttribute('data-img-index');
+        const imgData = imageConfig[index];
+
+        if (imgData) {
+            const imgElement = document.createElement('img');
+            imgElement.src = imgData.arquivo;
+            imgElement.alt = imgData.descricao;
+
+            imgElement.onload = () => {
+                container.style.padding = "0";
+                container.appendChild(imgElement);
+            };
+
+            imgElement.onerror = () => {
+                const placeholderContent = `
+                    <div class="solar-placeholder-icon">
+                        ${imgData.iconeFallback}
+                    </div>
+                    <div class="solar-placeholder-text">${imgData.descricao}</div>
+                    <div style="font-size: 0.85rem; margin-top: 5px; opacity: 0.7;">(Adicione a imagem na pasta em '${imgData.arquivo}')</div>
+                `;
+                container.innerHTML = placeholderContent;
+            };
+        }
+    });
+
+    /* =========================================================
+       ANIMAÇÕES ACIONADAS PELO SCROLL (SEÇÃO ASSINATURA)
+    ========================================================= */
+    const animatedElements = document.querySelectorAll('.solar-animate');
+
+    const animateOnScroll = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('solar-visible');
+            }
+        });
+    }, { root: null, rootMargin: '0px', threshold: 0.15 });
+
+    animatedElements.forEach(el => animateOnScroll.observe(el));
+
 });

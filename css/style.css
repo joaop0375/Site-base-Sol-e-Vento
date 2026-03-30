@@ -1441,3 +1441,287 @@ img {
         width: 100%;
     }
 }
+
+/* =========================================================================
+   NOVA SEÇÃO: ENERGIA SOLAR POR ASSINATURA
+========================================================================= */
+.solar-section {
+    --solar-primary: #10b981;
+    --solar-primary-dark: #047857;
+    --solar-secondary: #f59e0b;
+    --solar-secondary-hover: #d97706;
+    --solar-bg: #f8fafc;
+    --solar-surface: #ffffff;
+    --solar-text: #1e293b;
+    --solar-text-light: #475569;
+    --solar-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --solar-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --solar-radius: 16px;
+    --solar-transition: all 0.3s ease;
+
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--solar-bg);
+    color: var(--solar-text);
+    padding: 6rem 1.5rem;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.solar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.solar-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 4rem auto;
+}
+
+.solar-header h2 {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 700;
+    color: var(--solar-primary-dark);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.solar-header p {
+    font-size: 1.125rem;
+    color: var(--solar-text-light);
+}
+
+.solar-intro-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 5rem;
+}
+
+@media (min-width: 900px) {
+    .solar-intro-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.solar-text-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.solar-block {
+    background: var(--solar-surface);
+    padding: 2rem;
+    border-radius: var(--solar-radius);
+    box-shadow: var(--solar-shadow);
+    border-left: 5px solid var(--solar-primary);
+}
+
+.solar-block h3 {
+    font-size: 1.5rem;
+    color: var(--solar-primary-dark);
+    margin-bottom: 0.75rem;
+}
+
+.solar-block strong {
+    color: var(--solar-primary-dark);
+}
+
+.solar-img-container {
+    width: 100%;
+    min-height: 350px;
+    border-radius: var(--solar-radius);
+    overflow: hidden;
+    background-color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--solar-shadow);
+    color: var(--solar-text-light);
+    text-align: center;
+    padding: 2rem;
+    transition: var(--solar-transition);
+}
+
+.solar-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.solar-placeholder-icon {
+    margin-bottom: 1rem;
+    color: var(--solar-primary);
+}
+
+.solar-placeholder-text {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.solar-section-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--solar-text);
+    margin-bottom: 3rem;
+}
+
+.solar-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 5rem;
+}
+
+.solar-step-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: var(--solar-surface);
+    border-radius: var(--solar-radius);
+    box-shadow: var(--solar-shadow);
+    position: relative;
+    z-index: 1;
+}
+
+.solar-step-number {
+    width: 50px;
+    height: 50px;
+    background: var(--solar-primary);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem auto;
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.2);
+}
+
+.solar-step-card h4 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--solar-text);
+}
+
+.solar-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 5rem;
+}
+
+.solar-benefit-item {
+    background: var(--solar-surface);
+    padding: 2rem;
+    border-radius: var(--solar-radius);
+    box-shadow: var(--solar-shadow);
+    transition: var(--solar-transition);
+    border: 1px solid transparent;
+}
+
+.solar-benefit-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--solar-shadow-hover);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.solar-benefit-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--solar-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.solar-benefit-icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.solar-benefit-item h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--solar-text);
+}
+
+.solar-cta-wrapper {
+    text-align: center;
+    background: linear-gradient(135deg, var(--solar-primary-dark) 0%, var(--solar-primary) 100%);
+    padding: 4rem 2rem;
+    border-radius: var(--solar-radius);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.solar-cta-wrapper h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.solar-btn {
+    display: inline-block;
+    background-color: var(--solar-secondary);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.125rem;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: var(--solar-transition);
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    position: relative;
+    z-index: 2;
+}
+
+.solar-btn:hover {
+    background-color: var(--solar-secondary-hover);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+}
+
+.solar-trust {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.solar-trust svg {
+    width: 20px;
+    height: 20px;
+    color: var(--solar-secondary);
+}
+
+.solar-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.solar-animate.solar-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.solar-delay-1 { transition-delay: 0.1s; }
+.solar-delay-2 { transition-delay: 0.2s; }
+.solar-delay-3 { transition-delay: 0.3s; }
+.solar-delay-4 { transition-delay: 0.4s; }
